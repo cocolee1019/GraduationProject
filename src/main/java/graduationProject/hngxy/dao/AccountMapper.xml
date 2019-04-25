@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graduationProject.hngxy.dao.AccountMapper">
+  <resultMap id="BaseResultMap" type="graduationProject.hngxy.model.Account">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate" />
+    <result column="is_locked" jdbcType="BIT" property="isLocked" />
+    <result column="salt" property="salt" />
+    <result column="is_first_login" property="isFirstLogin" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="graduationProject.hngxy.model.Account">
+    insert into account (email, passwd, 
+      last_login_date, salt,is_locked,is_first_login)
+    values (#{email,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
+      null,#{salt},#{isLocked,jdbcType=BIT},true)
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="graduationProject.hngxy.model.Account">
+    update account
+    set email = #{email,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+      is_locked = #{isLocked,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateLastLoginDateByPrimaryKey" parameterType="Integer">
+    update account
+     set last_login_date = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateIsFirstLoginByPrimaryKey" parameterType="Integer">
+    update account
+      set is_first_login = false
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updatePasswdById" parameterType="Map">
+  	update account
+  	<set>
+  		<if test="#{passwd != null}">
+  			passwd = #{passwd}
+  		</if>
+  	</set>
+  	<where>
+  		id=#{id}
+  	</where>
+  </update>
+  
+  <update id="updateLockByEmail" parameterType="Map">
+  	update account
+  	<set>
+  		<if test="operation != null and operation == true">
+  			is_locked = true
+  		</if>
+  		<if test="operation != null and operation == false">
+  			is_locked = false
+  		</if>
+  	</set>
+  	<where>
+  		email=#{email}
+  	</where>
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, email, passwd, last_login_date,salt, is_locked,is_first_login
+    from account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, email, passwd, last_login_date, salt,is_locked,is_first_login
+    from account
+  </select>
+  
+   <select id="selectAccountByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, email, passwd, last_login_date,salt, is_locked,is_first_login
+    from account
+    where email = #{email}
+  </select>
+  
+</mapper>

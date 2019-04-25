@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graduationProject.hngxy.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="graduationProject.hngxy.model.Permission">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="graduationProject.hngxy.model.Permission">
+    insert into permission (`name`, `code`, 
+      `describe`)
+    values ( #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="graduationProject.hngxy.model.Permission">
+    update permission
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select per.id, per.name, per.code, per.describe
+    from permission as per
+    where per.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select per.id, per.name, per.code, per.describe
+    from permission as per
+  </select>
+  
+  <select id="selectByRoleId" parameterType="Integer" resultMap="BaseResultMap">
+    select per.id, per.name, per.code, per.describe
+    from permission as per
+    left join role_permission as t3
+    on per.id=t3.permission_id
+    where t3.role_id=#{id}
+  </select>
+  
+</mapper>

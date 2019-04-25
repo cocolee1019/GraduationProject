@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graduationProject.hngxy.dao.UserMapper">
+  
+  <resultMap id="BaseResultMap" type="graduationProject.hngxy.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="position_id" jdbcType="INTEGER" property="positionId" />
+    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="create_time" property="createTime" />
+  </resultMap>
+  
+   <resultMap id="ResultMapWithAccountAndRole" type="graduationProject.hngxy.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="position_id" jdbcType="INTEGER" property="positionId" />
+    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="create_time" property="createTime" />
+    <association column="email" property="account" select="graduationProject.hngxy.dao.AccountMapper.selectAccountByEmail"></association>
+  	<collection property="roles" column="email" select="graduationProject.hngxy.dao.RoleMapper.selectByEmail" />
+  </resultMap>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="graduationProject.hngxy.model.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user (first_name, last_name, 
+      email, phone, department_id, 
+      department_name, position_id, position_name, 
+      gender, birthday,create_time)
+    values ( #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, 
+      #{departmentName,jdbcType=VARCHAR}, #{positionId,jdbcType=INTEGER}, #{positionName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=BIT}, #{birthday,jdbcType=DATE},NOW())
+  </insert>
+  
+  <update id="updateUserInfoByPrimaryKey" parameterType="graduationProject.hngxy.model.User">
+    update user
+    <set>
+   		first_name = #{firstName,jdbcType=VARCHAR},
+   		last_name = #{lastName,jdbcType=VARCHAR},
+   		phone = #{phone,jdbcType=VARCHAR},
+   		gender = #{gender,jdbcType=BIT},
+   		birthday = #{birthday,jdbcType=DATE},
+    </set> 
+    <where>
+  	  id = #{id,jdbcType=INTEGER}
+    </where>
+  </update>
+  
+  <update id="updateCompanyInfoByPrimaryKey" parameterType="graduationProject.hngxy.model.User">
+    update user
+    <set>
+   		department_id = #{departmentId,jdbcType=DATE},
+   		department_name = #{departmentName,jdbcType=DATE},
+   		position_id = #{positionId,jdbcType=DATE},
+   		position_name = #{positionName,jdbcType=DATE}
+    </set> 
+    <where>
+  	  id = #{id,jdbcType=INTEGER}
+    </where>
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, first_name, last_name, email, phone, department_id, department_name, position_id, 
+    position_name, gender, birthday, create_time
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPositionId" parameterType="java.lang.Integer" resultType="Map">
+    select id, CONCAT(first_name, last_name) as name, email, phone, department_id, department_name, position_id, 
+    position_name, gender, birthday, create_time
+    from user
+    where position_id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="ResultMapWithAccountAndRole" >
+    select id, first_name, last_name, email, phone, department_id, department_name, position_id, 
+    position_name, gender, birthday, create_time
+    from user
+  </select>
+  
+   <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, first_name, last_name, email, phone, department_id, department_name, position_id, 
+    position_name, gender, birthday, create_time
+    from user
+    where email = #{email}
+  </select>
+  
+  <select id="selectByDepartmentId" parameterType="Integer" resultMap="BaseResultMap">
+  	select id, first_name, last_name, email, phone, department_id, department_name, position_id, 
+    position_name, gender, birthday, create_time
+    from user
+    where
+   	department_id=#{id}
+  </select>
+  
+  <select id="countByDepartmentId" parameterType="Integer" resultType="Integer">
+  	select count(id)
+    from user
+    where
+   	department_id=#{id}
+  </select>
+  
+  <select id="countByPosition" parameterType="Integer" resultType="Integer">
+  	select count(id)
+    from user
+    where
+   	position_id=#{id}
+  </select>
+  
+  <select id="selectByDepartmentIdAndPositionId" parameterType="Map" resultMap="BaseResultMap">
+  	select u.id, u.first_name, u.last_name, u.email, u.phone, u.department_id, u.department_name, u.position_id, 
+    u.position_name, u.gender, u.birthday, u.create_time
+    from user as u
+    left join position as pt
+    on pt.id = u.position_id
+    where
+   	u.department_id=#{depId}
+   	and
+   	pt.level>=#{positionLevel}
+  </select>
+  
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graduationProject.hngxy.dao.TaskReceiveObjectMapper">
+ 
+  <resultMap id="BaseResultMap" type="graduationProject.hngxy.model.TaskReceiveObject">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="receive_id" jdbcType="INTEGER" property="receiveId" />
+    <result column="receive_name" jdbcType="VARCHAR" property="receiveName" />
+    <result column="release_id" jdbcType="INTEGER" property="releaseId" />
+    <result column="release_name" jdbcType="VARCHAR" property="releaseName" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from task_receive_object
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="graduationProject.hngxy.model.TaskReceiveObject">
+    insert into task_receive_object ( task_id, receive_id, 
+      receive_name, release_id, release_name
+      )
+    values ( #{taskId,jdbcType=VARCHAR}, #{receiveId,jdbcType=VARCHAR}, 
+      #{receiveName,jdbcType=VARCHAR}, #{releaseId,jdbcType=VARCHAR}, #{releaseName,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="graduationProject.hngxy.model.TaskReceiveObject">
+    update task_receive_object
+    set task_id = #{taskId},
+      receive_id = #{receiveId},
+      receive_name = #{receiveName},
+      release_id = #{releaseId},
+      release_name = #{releaseName}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, receive_id, receive_name, release_id, release_name
+    from task_receive_object
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, task_id, receive_id, receive_name, release_id, release_name
+    from task_receive_object
+  </select>
+  
+  <select id="selectAllByTaskId" parameterType="Integer" resultMap="BaseResultMap">
+    select id, task_id, receive_id, receive_name, release_id, release_name
+    from task_receive_object
+    where task_id=#{taskId}
+  </select>
+</mapper>

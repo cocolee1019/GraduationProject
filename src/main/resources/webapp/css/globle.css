@@ -1,0 +1,20 @@
+.portlet.light{margin:10px 0;}
+.portlet.light > .portlet-title > .caption,.portlet.light > .portlet-title > .caption > i{color:#3988b6;font-weight:bold;font-size:16px;}
+.form_operate_box{background-color:#f5f5f5;padding:20px 10px;margin:0 10px 0 0;margin-top:-10px;border:1px solid #e1e1e1;border-top:none; text-align:right;margin-bottom:10px;}
+.blue.btn:active:hover, .blue.btn.active:hover{background-color: #204d74;}
+.blue.btn,.btn.preservation-btn{color: #FFFFFF; background-color: #3988b6; border-radius:0;}
+.portlet-header{padding-top:0;padding-right:10px;}
+.portlet-header .actions{float:right;margin:0;}
+.portlet-header .actions .button{background: #e5e5e5;display: inline-table;margin:7px 2px 0 0;padding: 3px 8px;}
+.portlet-header .actions .button:hover{color: #fff;background: #3465a4; -webkit-box-shadow:0 0 10px #ccc; -moz-box-shadow:0 0 10px #ccc; box-shadow:0 0 10px #ccc;}
+a.button.btn-circle.yellow{background-color: #F1A70B;color: #fff;font-weight: normal;}
+.boxmore{float: right;}
+.boxmore a.button.btn-circle{background-color:#F1A70B;color: #fff;}
+.portlet-header .actions.supplier_selection .form-control{margin:-6px 5px 0 0 !important;}
+.modal-dialog .form-group input[type="radio"],.modal-dialog .form-group input[type="checkbox"]{width:25px;position:relative;} .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{padding-left:10px;}
+.modal-open .modal{overflow:hidden!important;}
+.modal-dialog{min-height:100px;min-width:480px;width:80%;max-width:1500px;}
+.modal-dialog.list_dialog{min-width:480px;width:100%;max-width:9999px;}
+.modal-dialog-two .modal-content{top:0;}
+.modal-dialog .modal-content .modal-body01{overflow-x:hidden!important;overflow-y:auto!important;}
+.error{color:red;}

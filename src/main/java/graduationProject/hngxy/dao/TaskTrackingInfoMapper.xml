@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graduationProject.hngxy.dao.TaskTrackingInfoMapper">
+  
+  <resultMap id="BaseResultMap" type="graduationProject.hngxy.model.TaskTrackingInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from task_tracking_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="graduationProject.hngxy.model.TaskTrackingInfo">
+    insert into task_tracking_info (task_id, create_time, 
+      user_id, user_name, message
+      )
+    values ( #{taskId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="graduationProject.hngxy.model.TaskTrackingInfo">
+    update task_tracking_info
+    set task_id = #{taskId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, create_time, user_id, user_name, message
+    from task_tracking_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, task_id, create_time, user_id, user_name, message
+    from task_tracking_info
+  </select>
+  
+  <select id="selectByTaskId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, task_id, create_time, user_id, user_name, message
+    from task_tracking_info
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

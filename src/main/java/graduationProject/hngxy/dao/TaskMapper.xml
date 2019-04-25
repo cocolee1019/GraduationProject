@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graduationProject.hngxy.dao.TaskMapper">
+  
+  <resultMap id="BaseResultMap" type="graduationProject.hngxy.model.Task">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="doneTime" jdbcType="DATE" property="doneTime" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="receive_object" jdbcType="VARCHAR" property="receiveObject" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="parent_task_id" jdbcType="INTEGER" property="parentTaskId" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="graduationProject.hngxy.model.Task" keyProperty="id" useGeneratedKeys="true">
+    insert into task (`status`, create_time, done_time, 
+      user_id, user_name, receive_object, 
+      `describe`, `level`, parent_task_id, 
+      memo)
+    values (#{status,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE},
+   	  #{doneTime,jdbcType=DATE}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{receiveObject,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{parentTaskId,jdbcType=INTEGER}, 
+      #{memo,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="graduationProject.hngxy.model.Task">
+    update task
+    set `status` = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      receive_object = #{receiveObject,jdbcType=VARCHAR},
+      `describe` = #{describe,jdbcType=VARCHAR},
+      `level` = #{level,jdbcType=INTEGER},
+      parent_task_id = #{parentTaskId,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, `status`, create_time, done_time, user_id, user_name, receive_object, `describe`, `level`, 
+    parent_task_id, memo
+    from task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, `status`, create_time, done_time, user_id, user_name, receive_object,` describe`, `level`, 
+    parent_task_id, memo
+    from task
+  </select>
+  
+  <select id="selectFatherTask" parameterType="Integer" resultType="Integer">
+    select task_id as id
+    from task_receive_object
+    where receive_id=#{id} or release_id=#{id}
+  </select>
+  
+  <select id="selectAllByReleaseId" parameterType="Integer" resultMap="BaseResultMap">
+    select tk.id, tk.`status`, tk.create_time, tk.done_time, tk.user_id, tk.user_name, tk.receive_object, tk.`describe`, tk.`level`
+       from task as tk
+    where tk.user_id=#{id}
+  </select>
+  
+  <select id="selectAllByReceiveId" parameterType="Integer" resultMap="BaseResultMap">
+    select tk.id, tk.`status`, tk.create_time, tk.done_time, tk.user_id, tk.user_name, tk.receive_object, tk.`describe`, tk.`level`
+       from task as tk
+       left join task_receive_object as tro
+       on tro.task_id=tk.id
+    where tro.receive_id=#{id}
+  </select> 
+ </mapper>
