@@ -14,6 +14,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,9 +24,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSONObject;
 
 import graduationProject.hngxy.model.User;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private JedisPool jedisPool;
 	
 	private static Logger logger = Logger.getLogger(HomeController.class);
 	
@@ -34,6 +40,11 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("home");
 		Calendar calendar = Calendar.getInstance();
 		mav.addObject("nowTime",calendar.get(Calendar.HOUR_OF_DAY));
+
+		try(Jedis jedis = jedisPool.getResource();) {
+			System.out.println(jedis.ping());
+		}
+		
 		return mav;
 	}
 	

@@ -104,6 +104,16 @@
 	     <property name="cacheManager" ref="ehCacheManager"/>
 	</bean>
 	
+	<bean id="redisConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig"></bean>
+	
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg name="poolConfig" ref="redisConfig" />
+		<constructor-arg name="host" value="${spring.redis.host}" />
+		<constructor-arg name="port" value="${spring.redis.port}" />
+		<constructor-arg name="timeout" value="3000" />
+		<constructor-arg name="password" value="${spring.redis.password}" />
+	</bean>
+	
 	<!-- 导入shiro -->
 	<import resource="/spring-shiro.xml"></import>
 </beans>
