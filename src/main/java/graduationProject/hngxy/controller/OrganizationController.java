@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,7 +89,10 @@ public class OrganizationController {
 	
 	@ResponseBody
 	@RequestMapping(value="/org/addOrg",method=RequestMethod.POST)
-	private String addOrg(Department department) {
+	private String addOrg(Department department, HttpServletRequest request) {
+		
+		System.out.println(request.getParameter("name"));
+		
 		JSONObject resp = new JSONObject();
 		//新增部门 
 		departmentMapper.insert(department);
